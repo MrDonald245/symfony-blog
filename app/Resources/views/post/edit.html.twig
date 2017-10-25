@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Edit post {{ post.getTitle }}
+{% endblock %}
+{% block content %}
+    <div class="row mt-4">
+        <div class="col">
+            <form action="{{ path('post_edit', {'id': post.getId}) }}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="title" class="control-label col-auto">Title:</label>
+                    <div class="col-5">
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Enter title"
+                               value="{{ post.getTitle }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="text" class="control-label col-sm-2">Text:</label>
+                    <div class="col-8">
+                        <textarea name="text" class="form-control" id="text" cols="30"
+                                  rows="10">{{ post.getText }}</textarea>
+                    </div>
+                </div>
+                <button class="btn btn-default col-8" type="submit">Accept</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

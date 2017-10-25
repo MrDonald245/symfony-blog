@@ -1,0 +1,64 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Home page - feed
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .blogShort {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="col-md-10 blogShort">
+            <h1>{{ post.getTitle }}</h1>
+            <img src="http://www.kaczmarek-photo.com/wp-content/uploads/2012/06/guinnes-150x150.jpg"
+                 alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail">
+            <article><p>
+                    {{ post.getFirstParagraph }}
+                </p></article>
+            <p>
+                <small>Posted at {{ post.getPublicationDate }}</small>
+            </p>
+            <a class="btn btn-default pull-right marginBottom10" href="post/{{ post.getId }}">READ
+                MORE</a>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col mt-4">
+                <small class="pt-4">There are no posts yet. Add a new one <a href="{{ path('post_new') }}">here</a>
+                </small>
+            </div>
+        </div>
+    {% endfor %}
+    <!-- Bootstrap pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+        {% if maxPages > 1 %}
+            <ul class="pagination">
+
+                {# `«` arrow  #}
+                <li class="page-item {{ page == 1 ? 'disabled' }}">
+                    <a class="page-link" href="{{ path('home_feed', {'page': page-1 < 1 ? 1 : page-1}) }}">«</a>
+                </li>
+
+                {# Render each page number #}
+                {% for i in 1..maxPages %}
+                    <li class="page-item {{ page == i ? 'active' }}">
+                        <a class="page-link" href="{{ path('home_feed', {'page': i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {# `»` arrow #}
+                <li class="page-item {{ page == maxPages ? 'disabled' }}">
+                    <a class="page-link"
+                       href="{{ path('home_feed', {'page': page+1 <= maxPages ? page+1 : page}) }}">»</a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
+{% endblock %}
